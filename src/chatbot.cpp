@@ -44,6 +44,7 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+// Task 2 - Rule of Five Implementation
 ChatBot::ChatBot(const ChatBot &source) { // copy constructor
     std::cout << "ChatBot copy constructor" << std::endl;
     _image = new wxBitmap(*source._image);
@@ -66,7 +67,7 @@ ChatBot::ChatBot(ChatBot &&source) { // move constructor
     _image = source._image;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
-    _chatLogic->SetChatbotHandle(this);
+    _chatLogic->SetChatbotHandle(this); // Point GUI to new instance
 
     source._rootNode = nullptr;
     source._chatLogic = nullptr;
@@ -83,7 +84,7 @@ ChatBot &ChatBot::operator=(ChatBot &&source) { // move assignment
     
     delete _image;
     _chatLogic = source._chatLogic;
-    _chatLogic->SetChatbotHandle(this);
+    _chatLogic->SetChatbotHandle(this); // Point GUI to new instance
     _rootNode = source._rootNode;
     _image = source._image;
     
