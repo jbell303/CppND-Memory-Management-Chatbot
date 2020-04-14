@@ -67,10 +67,8 @@ ChatBot::ChatBot(ChatBot &&source) { // move constructor
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
     _chatLogic->SetChatbotHandle(this);
-    _currentNode = source._currentNode;
 
     source._rootNode = nullptr;
-    source._currentNode = nullptr;
     source._chatLogic = nullptr;
     if (source._image != NULL) {
         //delete source._image;
@@ -88,10 +86,8 @@ ChatBot &ChatBot::operator=(ChatBot &&source) { // move assignment
     _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
     _image = source._image;
-    _currentNode = source._currentNode;
     
     source._rootNode = nullptr;
-    source._currentNode = nullptr;
     source._chatLogic = nullptr;
     if (source._image != NULL) {
         //delete source._image;
