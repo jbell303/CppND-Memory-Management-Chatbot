@@ -46,8 +46,8 @@ ChatBot::~ChatBot()
 ////
 ChatBot::ChatBot(const ChatBot &source) { // copy constructor
     std::cout << "ChatBot copy constructor" << std::endl;
-    _image = source._image;
-    _chatLogic = std::move(source._chatLogic);
+    _image = new wxBitmap(*source._image);
+    _chatLogic = source._chatLogic;
     _rootNode = source._rootNode;
 }
 
@@ -55,31 +55,50 @@ ChatBot& ChatBot::operator=(const ChatBot &source) { // copy assignment
     std::cout << "ChatBot copy assignment" << std::endl;
     if (&source == this)
         return *this;
-    _image = source._image;
-    _chatLogic = std::move(source._chatLogic);
+    _image = new wxBitmap(*source._image);
+    _chatLogic = source._chatLogic;
     _rootNode = source._rootNode;
+    return *this;
 }
 
 ChatBot::ChatBot(ChatBot &&source) { // move constructor
     std::cout << "ChatBot move constructor" << std::endl;
     _image = source._image;
     _rootNode = source._rootNode;
-    _chatLogic = std::move(source._chatLogic);
+    _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    _currentNode = source._currentNode;
 
-    source._image = nullptr;
     source._rootNode = nullptr;
+    source._currentNode = nullptr;
+    source._chatLogic = nullptr;
+    if (source._image != NULL) {
+        //delete source._image;
+        source._image = NULL;
+    }
 }
 
-ChatBot& ChatBot::operator=(ChatBot &&source) { // move assignment
+ChatBot &ChatBot::operator=(ChatBot &&source) { // move assignment
     std::cout << "Chatbot move assignment" << std::endl;
     if (this == &source)
         return *this;
-    _chatLogic = std::move(source._chatLogic);
+    
+    delete _image;
+    _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
     _image = source._image;
+    _currentNode = source._currentNode;
     
-    source._image = nullptr;
     source._rootNode = nullptr;
+    source._currentNode = nullptr;
+    source._chatLogic = nullptr;
+    if (source._image != NULL) {
+        //delete source._image;
+        source._image = NULL;
+    }
+
+    return *this;
 }
 ////
 //// EOF STUDENT CODE
